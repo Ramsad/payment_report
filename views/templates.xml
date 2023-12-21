@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="customer_payment_report_pdf">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div class="text-center">
+                            <h2 style="color:#000;">
+                                <b>CUSTOMER PAYMENT REPORT</b>
+                            </h2>
+                            <center>
+                                <table name="master" width="90%">
+                                    <colgroup>
+                                        <col width='25%'/>
+                                        <col width='25%'/>
+                                        <col width='25%'/>
+                                        <col width='25%'/>
+                                    </colgroup>
+                                    <tbody class="invoice_tbody">
+                                        <tr>
+                                            <td style="color:#000;">
+                                                <t>
+                                                    <strong>Period From</strong>
+                                                </t>
+                                            </td>
+                                            <td>:
+                                                <span t-esc="start_date" t-options='{"widget": "date"}'/>
+                                            </td>
+                                            <td style="color:#000;">
+                                                <strong>Period To</strong>
+                                            </td>
+                                            <td>
+                                                <span t-esc="end_date" t-options='{"widget": "date"}'/>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <br/>
+
+                                    <table class="table table-striped" name="invoices">
+                                    <thead style="border-top: 1px solid #000;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;">
+                                        <tr>
+                                            <th style="width:7%;color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;"
+                                                class="text-center">Sl No.
+                                            </th>
+                                            <th style="color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;"
+                                                class="text-center">Customer
+                                            </th>
+                                            <th style="color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;"
+                                                class="text-center">First Sale date
+                                            </th>
+                                            <th style="color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;"
+                                                class="text-center">Total Sales
+                                            </th>
+                                            <th style="color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;">
+                                                Total Amount
+                                            </th>
+                                            <th style="color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;">
+                                                Paid Amount
+                                            </th>
+                                            <th style="color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;">
+                                                Balance
+                                            </th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="treat_tbody"
+                                           style="border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;">
+                                        <t t-set="i" t-value="1"/>
+                                        <t t-set="total_sale_count" t-value="0"/>
+                                        <t t-set="total_amount" t-value="0"/>
+                                        <t t-set="total_paid" t-value="0"/>
+                                        <t t-set="total_balance" t-value="0"/>
+                                        <tr t-foreach="invoices.values()" t-as="inv"
+                                            style="border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;">
+                                            <td class="text-center"
+                                                style="border-top:1px solid #000000;">
+                                                <span t-esc="i"/>
+                                                <t t-set="i" t-value="i+1"/>
+                                            </td>
+                                            <td class="text-center"
+                                                style="border-top:1px solid #000000;">
+                                                <span t-esc="inv['name']"/>
+                                            </td>
+                                            <td class="text-center"
+                                                style="border-top:1px solid #000000;">
+                                                <span t-esc="inv['first_sale_date']"/>
+                                            </td>
+                                            <td class="text-center"
+                                                style="border-top:1px solid #000000;">
+                                                <span t-esc="inv['total_sale_count']"/>
+                                                <t t-set="total_sale_count" t-value="total_sale_count+inv['total_sale_count']"/>
+                                            </td>
+                                            <td class="text-center"
+                                                style="border-top:1px solid #000000;">
+                                                <span t-esc="inv['total_amount']"/>
+                                                <t t-set="total_amount" t-value="total_amount+inv['total_amount']"/>
+                                            </td>
+                                            <td class="text-center"
+                                                style="border-top:1px solid #000000;">
+                                                <span t-esc="inv['paid_amount']"/>
+                                                <t t-set="total_paid" t-value="total_paid+inv['paid_amount']"/>
+                                            </td>
+
+                                            <td class="text-center"
+                                                style="border-top:1px solid #000000;">
+                                                <span t-esc="inv['balance_amount']"/>
+                                                <t t-set="total_balance" t-value="total_balance+inv['balance_amount']"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr style="color:white;background-color:#000 !important;border-top: 1px solid black;border-left: 1px solid black;border-right: 1px solid black;border-bottom:1px solid #000000;">
+                                            <td class="text-right" colspan="3"
+                                                style="color:#000;background-color:white !important;border-right: 1px solid black;border-top: 1px solid black;">
+                                                <strong>Total :</strong>
+                                            </td>
+                                            <td class="text-center"
+                                                style="color:#000;background-color:white !important;border-top: 1px solid black;">
+                                                <strong>
+                                                    <span t-esc="total_sale_count"/>
+                                                </strong>
+                                            </td><td class="text-center"
+                                                style="color:#000;background-color:white !important;border-top: 1px solid black;">
+                                                <strong>
+                                                    <span t-esc="'%.2f' % total_amount"/>
+                                                </strong>
+                                            </td><td class="text-center"
+                                                style="color:#000;background-color:white !important;border-top: 1px solid black;">
+                                                <strong>
+                                                    <span t-esc="'%.2f' % total_paid"/>
+                                                </strong>
+                                            </td><td class="text-center"
+                                                style="color:#000;background-color:white !important;border-top: 1px solid black;">
+                                                <strong>
+                                                    <span t-esc="'%.2f' % total_balance"/>
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br/>
+                            </center>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <report
+                id="payment_report"
+                string="Payment Report"
+                model="payment_report.wizard"
+                report_type="qweb-pdf"
+                file="payment_report.customer_payment_report_pdf"
+                name="payment_report.customer_payment_report_pdf"
+        />
+
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="payment_report_wizard_view" model="ir.ui.view">
+            <field name="name">Payment Report</field>
+            <field name="model">payment_report.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Customer Payment Report">
+                    <group>
+                        <group>
+                            <field name="start_date" required="1" widget="daterange"
+                                   options="{'related_end_date': 'end_date'}"/>
+
+
+                        </group>
+                        <group>
+                            <field name="end_date" required="1" widget="daterange"
+                                   options="{'related_start_date': 'start_date'}"/>
+
+
+
+                        </group>
+                    </group>
+                    <footer>
+                        <!--                                   <button name="customer_payment_report" string="Print PDF" type="object" class="btn-primary" attrs="{'invisible':[('state','=','get')]}"/>-->
+                        <button name="customer_payment_report" string="Print PDF" type="object" class="btn-primary"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_payment_report" model="ir.actions.act_window">
+            <field name="name">Payment Report</field>
+            <field name="res_model">payment_report.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="payment_report_wizard_view"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="menu_customer_payment_report" name="Customer Payment Report" action="action_payment_report"
+                  parent="account.account_reports_management_menu" sequence="10"
+        />
+
+    </data>
+</odoo>
